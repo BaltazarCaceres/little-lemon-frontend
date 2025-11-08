@@ -1,47 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ReservationForm from './components/ReservationForm';
-import Home from './components/Home';
-import Menu from './components/Menu';
-import CartModal from './components/CartModal';
-import AboutUs from './components/AboutUs';
-import Contact from './components/Contact';
-import './styles/form.css';
+import { Routes, Route } from 'react-router-dom'; // ❌ No importes BrowserRouter aquí
+// ...otros imports
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
-  const [discount, setDiscount] = useState(0);
-  const [discountMessage, setDiscountMessage] = useState('');
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const addToCart = (item) => setCartItems(prev => [...prev, item]);
-  const removeFromCart = (index) => setCartItems(prev => prev.filter((_, i) => i !== index));
-  const resetCart = () => {
-    setCartItems([]);
-    setDiscount(0);
-    setDiscountMessage('');
-  };
-
-  const applyDiscount = (code) => {
-    if (code === 'LEMON10') {
-      setDiscount(0.1);
-      setDiscountMessage('✅ Descuento aplicado: 10%');
-    } else {
-      setDiscount(0);
-      setDiscountMessage('❌ Código inválido');
-      setTimeout(() => {
-        setDiscountMessage('');
-      }, 10000);
-    }
-  };
-
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
-  const discountedTotal = total - total * discount;
+  // ...tu lógica de estado
 
   return (
-    <Router>
+    <>
       <Header />
       <main>
         <button
@@ -74,7 +38,7 @@ function App() {
         />
       </main>
       <Footer />
-    </Router>
+    </>
   );
 }
 
