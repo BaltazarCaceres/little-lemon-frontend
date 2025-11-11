@@ -1,4 +1,4 @@
-import '../styles/form.css';
+import '../../../styles/form.css';
 import { useState } from 'react';
 
 function ReservationForm() {
