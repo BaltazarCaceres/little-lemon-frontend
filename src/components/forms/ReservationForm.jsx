@@ -18,20 +18,40 @@ function ReservationForm() {
     let cleanValue = value;
 
     if (name === 'phone') {
-      cleanValue = value.replace(/[^0-9]/g, '').slice(0, 10); // solo números, máx 10 dígitos
+      cleanValue = value.replace(/[^0-9]/g, '').slice(0, 10);
     }
 
     if (name === 'name') {
-      cleanValue = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, ''); // solo letras y espacios
+      cleanValue = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
     }
 
     setFormData(prev => ({ ...prev, [name]: cleanValue }));
   };
 
-  const handleSubmit = (e) => {
+  // ✅ Nueva función para enviar la reserva al backend
+  const sendReservation = async () => {
+    try {
+      const response = await fetch('https://little-lemon-backend.onrender.com/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar la reserva');
+      }
+
+      const result = await response.json();
+      console.log('Reserva guardada:', result);
+    } catch (err) {
+      console.error(err);
+      setError('No se pudo guardar la reserva. Intenta más tarde.');
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validaciones
     if (formData.phone.length !== 10) {
       setError('El teléfono debe tener exactamente 10 dígitos.');
       return;
@@ -58,6 +78,8 @@ function ReservationForm() {
     }
 
     setError('');
+    await sendReservation(); // 👈 Aquí se conecta con el backend
+
     alert(`Reserva confirmada para ${formData.name} el ${formData.date} a las ${formData.time} para ${formData.guests} personas.`);
     setFormData({
       name: '',
@@ -75,74 +97,32 @@ function ReservationForm() {
 
       <label>
         Nombre:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
       </label>
 
       <label>
         Correo electrónico:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
       </label>
 
       <label>
         Teléfono:
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          maxLength="10"
-          required
-        />
+        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} maxLength="10" required />
       </label>
 
       <label>
         Fecha:
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-          min={new Date().toISOString().split('T')[0]} // solo fechas futuras
-        />
+        <input type="date" name="date" value={formData.date} onChange={handleChange} required min={new Date().toISOString().split('T')[0]} />
       </label>
 
       <label>
         Hora:
-        <input
-          type="time"
-          name="time"
-          value={formData.time}
-          onChange={handleChange}
-          required
-          min="12:00"
-          max="22:00"
-        />
+        <input type="time" name="time" value={formData.time} onChange={handleChange} required min="12:00" max="22:00" />
       </label>
 
       <label>
         Número de personas:
-        <input
-          type="number"
-          name="guests"
-          value={formData.guests}
-          onChange={handleChange}
-          min="1"
-          max="20"
-          required
-        />
+        <input type="number" name="guests" value={formData.guests} onChange={handleChange} min="1" max="20" required />
       </label>
 
       {error && <p className="error">{error}</p>}

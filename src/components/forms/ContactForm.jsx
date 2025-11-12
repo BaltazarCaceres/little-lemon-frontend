@@ -17,7 +17,7 @@ export default function ContactForm() {
     setStatus('Enviando...');
 
     try {
-      const response = await fetch("https://little-lemon-backend.onrender.com/api/reservations", {
+      const response = await fetch("https://little-lemon-backend.onrender.com/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
