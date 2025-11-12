@@ -28,7 +28,6 @@ function ReservationForm() {
     setFormData(prev => ({ ...prev, [name]: cleanValue }));
   };
 
-  // ✅ Nueva función para enviar la reserva al backend
   const sendReservation = async () => {
     try {
       const response = await fetch('https://little-lemon-backend.onrender.com/reservations', {
@@ -78,7 +77,7 @@ function ReservationForm() {
     }
 
     setError('');
-    await sendReservation(); // 👈 Aquí se conecta con el backend
+    await sendReservation();
 
     alert(`Reserva confirmada para ${formData.name} el ${formData.date} a las ${formData.time} para ${formData.guests} personas.`);
     setFormData({
