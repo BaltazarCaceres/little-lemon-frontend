@@ -94,35 +94,23 @@ function ReservationForm() {
     <form className="reservation-form" onSubmit={handleSubmit}>
       <h2>Reserva tu mesa</h2>
 
-      <label>
-        Nombre:
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-      </label>
+      <label htmlFor="name">Nombre:</label>
+      <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
 
-      <label>
-        Correo electrónico:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-      </label>
+      <label htmlFor="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
 
-      <label>
-        Teléfono:
-        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} maxLength="10" required />
-      </label>
+      <label htmlFor="phone">Teléfono:</label>
+      <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} maxLength="10" required />
 
-      <label>
-        Fecha:
-        <input type="date" name="date" value={formData.date} onChange={handleChange} required min={new Date().toISOString().split('T')[0]} />
-      </label>
+      <label htmlFor="date">Fecha:</label>
+      <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required min={new Date().toISOString().split('T')[0]} />
 
-      <label>
-        Hora:
-        <input type="time" name="time" value={formData.time} onChange={handleChange} required min="12:00" max="22:00" />
-      </label>
+      <label htmlFor="time">Hora:</label>
+      <input type="time" id="time" name="time" value={formData.time} onChange={handleChange} required min="12:00" max="22:00" />
 
-      <label>
-        Número de personas:
-        <input type="number" name="guests" value={formData.guests} onChange={handleChange} min="1" max="20" required />
-      </label>
+      <label htmlFor="guests">Número de personas:</label>
+      <input type="number" id="guests" name="guests" value={formData.guests} onChange={handleChange} min="1" max="20" required />
 
       {error && <p className="error">{error}</p>}
       <button type="submit">Reservar</button>
