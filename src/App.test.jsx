@@ -1,14 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom'; // ✅ Importa el router
-import App from './App.jsx'; // ✅ Asegúrate de usar la extensión correcta si renombraste
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.jsx';
 
-test('renders learn react link', () => {
+test('renderiza el botón del carrito', () => {
   render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
   );
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  // Verifica que el botón del carrito esté presente
+  const cartButton = screen.getByTitle(/agrega productos para continuar/i);
+  expect(cartButton).toBeInTheDocument();
 });
+
 
