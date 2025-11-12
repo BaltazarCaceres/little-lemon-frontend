@@ -1,0 +1,25 @@
+.admin-panel {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.admin-panel h2 {
+  margin-bottom: 1rem;
+}
+
+.admin-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-panel th,
+.admin-panel td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.admin-panel .error {
+  color: red;
+  margin-bottom: 1rem;
+}
