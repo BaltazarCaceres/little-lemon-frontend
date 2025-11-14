@@ -1,60 +1,67 @@
 import { useState } from 'react';
 
-export default function ContactForm() {
+function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
+    date: '',
+    time: '',
+    guests: 1
   });
-  const [status, setStatus] = useState('');
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Enviando...');
 
     try {
-      const response = await fetch("https://little-lemon-backend.onrender.com/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          date: "2099-12-31",
-          time: "00:00",
-          guests: 0,
-          message: formData.message,
-        }),
+      const response = await fetch('https://little-lemon-backend-n4ky.onrender.com/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
 
+      const result = await response.json();
       if (response.ok) {
-        setStatus("Mensaje enviado con éxito 🍋");
-        setFormData({ name: '', email: '', message: '' });
+        alert('✅ Mensaje enviado con éxito');
+        setFormData({ name: '', email: '', message: '', date: '', time: '', guests: 1 });
       } else {
-        setStatus("Error al enviar el mensaje.");
+        alert('❌ Error: ' + result.error);
       }
-    } catch (err) {
-      console.error(err);
-      setStatus("No se pudo conectar con el servidor.");
+    } catch (error) {
+      alert('❌ Error al conectar con el servidor');
+      console.error(error);
     }
   };
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
-      <label>Nombre:
-        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-      </label>
-      <label>Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-      </label>
-      <label>Mensaje:
-        <textarea name="message" rows="4" value={formData.message} onChange={handleChange} required />
-      </label>
+    <form onSubmit={handleSubmit} className="contact-form">
+      <h2>Contáctanos</h2>
+      <label htmlFor="name">Nombre:</label>
+      <input name="name" value={formData.name} onChange={handleChange} required />
+
+      <label htmlFor="email">Correo electrónico:</label>
+      <input name="email" type="email" value={formData.email} onChange={handleChange} required />
+
+      <label htmlFor="message">Mensaje:</label>
+      <textarea name="message" value={formData.message} onChange={handleChange} required />
+
+      <label htmlFor="date">Fecha:</label>
+      <input name="date" type="date" value={formData.date} onChange={handleChange} />
+
+      <label htmlFor="time">Hora:</label>
+      <input name="time" type="time" value={formData.time} onChange={handleChange} />
+
+      <label htmlFor="guests">Número de personas:</label>
+      <input name="guests" type="number" min="1" max="20" value={formData.guests} onChange={handleChange} />
+
       <button type="submit">Enviar</button>
-      <p>{status}</p>
     </form>
   );
 }
+
+export default ContactForm;
