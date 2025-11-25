@@ -1,55 +1,13 @@
-import { useEffect, useState } from 'react';
-import './AdminPanel.css'; // Puedes crear estilos personalizados aquí
+import React from 'react';
+import "./AdminPanel.css";
 
-export default function AdminPanel() {
-  const [reservas, setReservas] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetch('https://little-lemon-backend.onrender.com/reservations')
-      .then((res) => {
-        if (!res.ok) throw new Error('Error al obtener las reservaciones');
-        return res.json();
-      })
-      .then((data) => setReservas(data))
-      .catch((err) => {
-        console.error(err);
-        setError('No se pudieron cargar las reservaciones');
-      });
-  }, []);
-
+function AdminPanel() {
   return (
-    <section className="admin-panel">
-      <h2>📋 Panel de Reservaciones</h2>
-      {error && <p className="error">{error}</p>}
-      {reservas.length === 0 ? (
-        <p>No hay reservaciones registradas.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Teléfono</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Personas</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservas.map((reserva) => (
-              <tr key={reserva._id}>
-                <td>{reserva.name}</td>
-                <td>{reserva.email}</td>
-                <td>{reserva.phone}</td>
-                <td>{reserva.date}</td>
-                <td>{reserva.time}</td>
-                <td>{reserva.guests}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </section>
+    <div className="admin-panel">
+      <h1>Panel de Administración</h1>
+      <p>Aquí podrás ver y gestionar las reservaciones y mensajes de contacto.</p>
+    </div>
   );
 }
+
+export default AdminPanel;

@@ -1,0 +1,15 @@
+.admin-panel {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.admin-panel h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.admin-panel p {
+  font-size: 16px;
+  color: #333;
+}
