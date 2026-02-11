@@ -2,13 +2,13 @@ import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ReservationForm from './components/forms/ReservationForm';
+import BookingForm from './components/BookingForm.jsx'; // ✅ formulario de reservas
 import Home from './components/Home';
 import Menu from './components/Menu';
 import CartModal from './components/CartModal';
 import AboutUs from './components/AboutUs';
 import Contact from './components/Contact';
-import AdminPanel from './components/AdminPanel'; // ✅ nuevo componente
+import AdminPanel from './components/AdminPanel';
 import './styles/form.css';
 
 function App() {
@@ -64,10 +64,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu addToCart={addToCart} />} />
-          <Route path="/reservas" element={<ReservationForm />} />
+          <Route path="/booking" element={<BookingForm />} /> {/* ✅ reservas */}
           <Route path="/nosotros" element={<AboutUs />} />
           <Route path="/contacto" element={<Contact />} />
-          <Route path="/admin" element={<AdminPanel />} /> {/* ✅ nueva ruta */}
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
 
         <CartModal
