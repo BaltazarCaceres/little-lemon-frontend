@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function ReservationForm() {
+function BookingForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,7 +15,6 @@ function ReservationForm() {
 
   // Simulación de fetchAPI: reemplázalo con tu lógica real
   const fetchAPI = (date) => {
-    // Aquí podrías llamar a tu backend para obtener horarios disponibles
     return ["18:00", "19:00", "20:00", "21:00"];
   };
 
@@ -94,4 +93,4 @@ function ReservationForm() {
   );
 }
 
-export default ReservationForm;
+export default BookingForm;
