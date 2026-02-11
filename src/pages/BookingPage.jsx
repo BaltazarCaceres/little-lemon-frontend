@@ -1,5 +1,5 @@
 import React from "react";
-import BookingForm from "../components/BookingForm.jsx";
+import BookingForm from "../components/BookingForm"; // ✅ importa sin extensión
 
 function BookingPage() {
   return (
@@ -11,3 +11,6 @@ function BookingPage() {
 }
 
 export default BookingPage;
+
+
+
