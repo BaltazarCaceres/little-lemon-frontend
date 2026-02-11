@@ -60,7 +60,6 @@ function BookingForm() {
     }
   };
 
-  // Validación adicional con React
   const isValid =
     formData.name.trim() &&
     formData.email.trim() &&
@@ -73,28 +72,28 @@ function BookingForm() {
     <form onSubmit={handleSubmit} className="reservation-form" autoComplete="off">
       <h2>Reserva tu mesa</h2>
 
-      <label>Nombre:</label>
-      <input name="name" value={formData.name} onChange={handleChange} required />
+      <label htmlFor="name">Nombre:</label>
+      <input id="name" name="name" value={formData.name} onChange={handleChange} required />
 
-      <label>Correo electrónico:</label>
-      <input name="email" type="email" value={formData.email} onChange={handleChange} required />
+      <label htmlFor="email">Correo electrónico:</label>
+      <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
 
-      <label>Teléfono:</label>
-      <input name="phone" type="tel" value={formData.phone} onChange={handleChange} required />
+      <label htmlFor="phone">Teléfono:</label>
+      <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} required />
 
-      <label>Fecha:</label>
-      <input name="date" type="date" value={formData.date} onChange={handleChange} required />
+      <label htmlFor="date">Fecha:</label>
+      <input id="date" name="date" type="date" value={formData.date} onChange={handleChange} required />
 
-      <label>Hora:</label>
-      <select name="time" value={formData.time} onChange={handleChange} required>
+      <label htmlFor="time">Hora:</label>
+      <select id="time" name="time" value={formData.time} onChange={handleChange} required>
         <option value="">Selecciona una hora</option>
         {availableTimes.map((t) => (
           <option key={t} value={t}>{t}</option>
         ))}
       </select>
 
-      <label>Número de personas:</label>
-      <input name="guests" type="number" min="1" max="20" value={formData.guests} onChange={handleChange} required />
+      <label htmlFor="guests">Número de personas:</label>
+      <input id="guests" name="guests" type="number" min="1" max="20" value={formData.guests} onChange={handleChange} required />
 
       <button type="submit" disabled={!isValid}>Reservar</button>
       {mensaje && <p>{mensaje}</p>}
