@@ -1,69 +1,97 @@
 import React, { useState, useEffect } from "react";
 
-function BookingForm() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [name, setName] = useState("");
+function ReservationForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    date: "",
+    time: "",
+    guests: 1,
+  });
+
   const [availableTimes, setAvailableTimes] = useState([]);
+  const [mensaje, setMensaje] = useState("");
+
+  // Simulación de fetchAPI: reemplázalo con tu lógica real
+  const fetchAPI = (date) => {
+    // Aquí podrías llamar a tu backend para obtener horarios disponibles
+    return ["18:00", "19:00", "20:00", "21:00"];
+  };
 
   useEffect(() => {
-    if (date) {
-      const times = fetchAPI(new Date(date));
+    if (formData.date) {
+      const times = fetchAPI(new Date(formData.date));
       setAvailableTimes(times);
     }
-  }, [date]);
+  }, [formData.date]);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = submitAPI({ date, time, name });
-    if (success) {
-      alert("Reserva enviada correctamente!");
-    } else {
-      alert("Error al enviar la reserva.");
+    try {
+      const response = await fetch(
+        "https://little-lemon-backend-n4ky.onrender.com/api/reservaciones",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) throw new Error("Error al guardar la reservación");
+
+      await response.json();
+      setMensaje("✅ Reservación guardada con éxito");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: "",
+        guests: 1,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      setMensaje("❌ No se pudo guardar la reservación. Intenta más tarde.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Nombre:
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <br />
-      <label>
-        Fecha:
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
-      </label>
-      <br />
-      <label>
-        Hora:
-        <select
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          required
-        >
-          <option value="">Selecciona una hora</option>
-          {availableTimes.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-      </label>
-      <br />
+    <form onSubmit={handleSubmit} className="reservation-form" autoComplete="off">
+      <h2>Reserva tu mesa</h2>
+
+      <label>Nombre:</label>
+      <input name="name" value={formData.name} onChange={handleChange} required />
+
+      <label>Correo electrónico:</label>
+      <input name="email" type="email" value={formData.email} onChange={handleChange} required />
+
+      <label>Teléfono:</label>
+      <input name="phone" type="tel" value={formData.phone} onChange={handleChange} required />
+
+      <label>Fecha:</label>
+      <input name="date" type="date" value={formData.date} onChange={handleChange} required />
+
+      <label>Hora:</label>
+      <select name="time" value={formData.time} onChange={handleChange} required>
+        <option value="">Selecciona una hora</option>
+        {availableTimes.map((t) => (
+          <option key={t} value={t}>{t}</option>
+        ))}
+      </select>
+
+      <label>Número de personas:</label>
+      <input name="guests" type="number" min="1" max="20" value={formData.guests} onChange={handleChange} required />
+
       <button type="submit">Reservar</button>
+      {mensaje && <p>{mensaje}</p>}
     </form>
   );
 }
 
-export default BookingForm;
+export default ReservationForm;
