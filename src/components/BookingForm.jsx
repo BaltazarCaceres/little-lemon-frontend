@@ -60,6 +60,15 @@ function BookingForm() {
     }
   };
 
+  // Validación adicional con React
+  const isValid =
+    formData.name.trim() &&
+    formData.email.trim() &&
+    formData.phone.trim() &&
+    formData.date &&
+    formData.time &&
+    formData.guests >= 1;
+
   return (
     <form onSubmit={handleSubmit} className="reservation-form" autoComplete="off">
       <h2>Reserva tu mesa</h2>
@@ -87,7 +96,7 @@ function BookingForm() {
       <label>Número de personas:</label>
       <input name="guests" type="number" min="1" max="20" value={formData.guests} onChange={handleChange} required />
 
-      <button type="submit">Reservar</button>
+      <button type="submit" disabled={!isValid}>Reservar</button>
       {mensaje && <p>{mensaje}</p>}
     </form>
   );
